@@ -10,16 +10,30 @@ Este repositório contém minhas soluções para problemas do LeetCode, desenvol
 
 ```
 ├── easy/
-│   ├── 001-two-sum.cs
-│   ├── 009-palindrome-number.cs
-│   └── 013-roman-to-integer.cs
+│   ├── 001-TwoSum/
+│   │   ├── Program.cs
+│   │   └── TwoSum.csproj
+│   ├── 009-PalindromeNumber/
+│   │   ├── Program.cs
+│   │   └── PalindromeNumber.csproj
+│   └── 013-RomanToInteger/
+│       ├── Program.cs
+│       └── RomanToInteger.csproj
 ├── medium/
-│   ├── 002-add-two-numbers.cs
-│   ├── 003-longest-substring.cs
-│   └── 005-longest-palindromic-substring.cs
+│   ├── 002-AddTwoNumbers/
+│   │   ├── Program.cs
+│   │   └── AddTwoNumbers.csproj
+│   └── 003-LongestSubstring/
+│       ├── Program.cs
+│       └── LongestSubstring.csproj
 ├── hard/
-│   ├── 004-median-of-two-sorted-arrays.cs
-│   └── 023-merge-k-sorted-lists.cs
+│   ├── 004-MedianOfTwoSortedArrays/
+│   │   ├── Program.cs
+│   │   └── MedianOfTwoSortedArrays.csproj
+│   └── 023-MergeKSortedLists/
+│       ├── Program.cs
+│       └── MergeKSortedLists.csproj
+├── .gitignore
 └── README.md
 ```
 
@@ -47,24 +61,54 @@ Este repositório contém minhas soluções para problemas do LeetCode, desenvol
 
 ## 📝 Padrão de Nomenclatura
 
-Os arquivos seguem o padrão:
+Cada problema tem sua própria pasta seguindo o padrão:
 ```
-[numero]-[nome-do-problema].cs
+[numero]-[NomeDoProblema]/
+├── Program.cs
+└── [NomeDoProblema].csproj
 ```
 
 Exemplos:
-- `001-two-sum.cs`
-- `015-three-sum.cs`
-- `206-reverse-linked-list.cs`
+- `001-TwoSum/`
+- `015-ThreeSum/`
+- `206-ReverseLinkedList/`
+
+**Importante:** Use PascalCase no nome (primeira letra de cada palavra maiúscula) e mantenha o nome em inglês como aparece no LeetCode.
+
+## 🚀 Como Executar
+
+Para rodar um exercício específico:
+
+```bash
+# Navegue até a pasta do problema
+cd easy/001-TwoSum
+
+# Execute o projeto
+dotnet run
+```
+
+## 📦 .gitignore Recomendado
+
+Adicione no seu `.gitignore`:
+```
+bin/
+obj/
+*.user
+.vs/
+.vscode/
+*.suo
+*.userosscache
+*.sln.docstates
+```
 
 ## 💡 Estrutura de Cada Solução
 
-Cada arquivo contém:
+Cada `Program.cs` contém:
 - Descrição do problema (comentário)
 - Link para o problema no LeetCode
 - Análise de complexidade (tempo e espaço)
-- Solução implementada
-- Exemplos de uso
+- Classe Solution com a implementação
+- Método Main com exemplos de teste
 
 Exemplo:
 ```csharp
@@ -85,9 +129,62 @@ public class Solution
 {
     public int[] TwoSum(int[] nums, int target) 
     {
-        // Implementation here
+        var map = new Dictionary<int, int>();
+        
+        for (int i = 0; i < nums.Length; i++)
+        {
+            int complement = target - nums[i];
+            
+            if (map.ContainsKey(complement))
+                return new int[] { map[complement], i };
+            
+            map[nums[i]] = i;
+        }
+        
+        return new int[] { };
     }
 }
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        var solution = new Solution();
+        
+        // Test Case 1
+        int[] nums1 = { 2, 7, 11, 15 };
+        int target1 = 9;
+        int[] result1 = solution.TwoSum(nums1, target1);
+        Console.WriteLine($"Input: nums = [{string.Join(",", nums1)}], target = {target1}");
+        Console.WriteLine($"Output: [{string.Join(",", result1)}]");
+        Console.WriteLine();
+        
+        // Test Case 2
+        int[] nums2 = { 3, 2, 4 };
+        int target2 = 6;
+        int[] result2 = solution.TwoSum(nums2, target2);
+        Console.WriteLine($"Input: nums = [{string.Join(",", nums2)}], target = {target2}");
+        Console.WriteLine($"Output: [{string.Join(",", result2)}]");
+    }
+}
+```
+
+## 📋 Template de .csproj
+
+Cada projeto usa o seguinte template:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>LeetCode</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
 ```
 
 ## 📈 Tópicos Estudados
